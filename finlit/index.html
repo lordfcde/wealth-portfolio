@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>YourFin — Financial Literacy AI for Youth</title>
+<meta name="description" content="YourFin is an AI companion that teaches young people to think clearly about money.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0f1e;--surface:#111827;--surface-2:#1a2235;--primary:#00e5a0;--primary-glow:rgba(0,229,160,0.15);--accent:#6366f1;--accent-2:#f59e0b;--text-1:#f0f4f8;--text-2:#94a3b8;--border:rgba(255,255,255,0.08);--radius:16px}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text-1);line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.bg-gradient{position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(ellipse 80% 60% at 20% 30%,rgba(99,102,241,0.12),transparent),radial-gradient(ellipse 60% 80% at 80% 70%,rgba(0,229,160,0.08),transparent);animation:meshMove 20s ease-in-out infinite alternate}
+@keyframes meshMove{0%{opacity:.8}50%{opacity:1}100%{opacity:.85}}
+#particles{position:fixed;inset:0;z-index:1;pointer-events:none}
+.container{max-width:1200px;margin:0 auto;padding:0 24px;position:relative;z-index:2}
+.glass{background:rgba(255,255,255,0.04);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.08);border-radius:var(--radius)}
+.rainbow-text{background:linear-gradient(135deg,#ff6b6b,#ffd93d,#6bcb77,#4d96ff,#c77dff,#ff6b6b);background-size:300% 300%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:rainbowShift 3s ease infinite}
+@keyframes rainbowShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.glow-pulse{animation:glowPulse 2s ease-in-out infinite}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 5px rgba(0,229,160,0.3),0 0 10px rgba(0,229,160,0.1)}50%{box-shadow:0 0 20px rgba(0,229,160,0.5),0 0 40px rgba(0,229,160,0.2)}}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:12px;font-family:'Inter',sans-serif;font-weight:600;font-size:15px;cursor:pointer;transition:all .3s ease;border:none;text-decoration:none}
+.btn-primary{background:var(--primary);color:#0a0f1e}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(0,229,160,0.4)}
+.btn-ghost{background:transparent;color:var(--text-1);border:1px solid rgba(255,255,255,0.2)}
+.btn-ghost:hover{border-color:rgba(255,255,255,0.4);transform:translateY(-2px)}
+.btn-shimmer{position:relative;overflow:hidden}
+.btn-shimmer::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.15),transparent);transition:left .5s}
+.btn-shimmer:hover::after{left:100%}
+.section-title{font-size:clamp(32px,4vw,48px);font-weight:800;letter-spacing:-1.5px;margin-bottom:16px}
+.section-sub{font-size:17px;color:var(--text-2);line-height:1.7}
+
+/* NAVBAR */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 0;transition:all .3s ease}
+.navbar.scrolled{background:rgba(10,15,30,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:12px 0}
+.navbar .container{display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+.logo-monogram{width:38px;height:38px;border-radius:50%;background:conic-gradient(from 180deg,#06b6d4,#3b82f6,#8b5cf6,#06b6d4);display:flex;align-items:center;justify-content:center;padding:2px}
+.logo-monogram-inner{width:100%;height:100%;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center}
+.logo-monogram-inner span{font-weight:800;font-size:16px;background:linear-gradient(135deg,#06b6d4,#3b82f6,#8b5cf6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.logo-wordmark{display:flex;flex-direction:column;line-height:1}
+.logo-wordmark .logo-your{font-size:9px;font-weight:600;color:var(--text-2);letter-spacing:2px;text-transform:uppercase}
+.logo-wordmark .logo-fin{font-size:22px;font-weight:900;background:linear-gradient(90deg,#ff6b6b,#ffd93d,#6bcb77,#4d96ff,#c77dff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-top:-2px}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{color:var(--text-2);text-decoration:none;font-size:14px;font-weight:500;position:relative;transition:color .3s}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--primary);transition:width .3s}
+.nav-links a:hover{color:var(--text-1)}
+.nav-links a:hover::after{width:100%}
+.nav-cta .btn{padding:10px 20px;font-size:14px}
+
+/* HERO */
+.hero{padding:140px 0 100px;min-height:100vh;display:flex;align-items:center}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:100px;background:linear-gradient(135deg,rgba(255,107,107,0.1),rgba(77,150,255,0.1));border:1px solid rgba(255,255,255,0.1);font-size:14px;font-weight:500;color:var(--text-2);margin-bottom:24px}
+.hero h1{font-size:clamp(40px,5vw,72px);font-weight:800;line-height:1.08;letter-spacing:-2px;margin-bottom:24px}
+.hero-sub{font-size:18px;color:var(--text-2);line-height:1.7;max-width:500px;margin-bottom:32px}
+.hero-ctas{display:flex;gap:16px;margin-bottom:32px;flex-wrap:wrap}
+.social-proof{display:flex;align-items:center;gap:12px}
+.avatar-stack{display:flex}
+.avatar-stack span{width:32px;height:32px;border-radius:50%;border:2px solid var(--bg);margin-left:-8px;display:flex;align-items:center;justify-content:center;font-size:14px;background:var(--surface-2)}
+.avatar-stack span:first-child{margin-left:0}
+.social-proof p{font-size:13px;color:var(--text-2)}
+.social-proof .stars{color:var(--accent-2)}
+.phone-wrapper{position:relative;display:flex;justify-content:center;align-items:center}
+.phone-glow{position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(0,229,160,0.2),transparent 70%);filter:blur(40px)}
+.phone{position:relative;z-index:1;width:280px;height:560px;border-radius:40px;background:#1a1a2a;padding:12px;border:2px solid rgba(255,255,255,0.12);box-shadow:0 20px 60px rgba(0,0,0,0.5)}
+.phone-notch{position:absolute;top:12px;left:50%;transform:translateX(-50%);width:100px;height:24px;background:#1a1a2a;border-radius:0 0 16px 16px;z-index:5}
+.phone-screen{width:100%;height:100%;border-radius:30px;overflow:hidden;background:var(--bg);display:flex;flex-direction:column}
+.phone-statusbar{padding:14px 20px 8px;display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--text-2)}
+.phone-header{padding:8px 16px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.phone-header-avatar{width:28px;height:28px;border-radius:50%;background:conic-gradient(from 180deg,#06b6d4,#3b82f6,#8b5cf6,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff}
+.phone-header-name{font-size:14px;font-weight:600}
+.phone-header-status{font-size:11px;color:var(--primary)}
+.phone-chat{flex:1;padding:12px;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
+.chat-msg{max-width:85%;padding:10px 14px;border-radius:16px;font-size:12px;line-height:1.5;animation:msgAppear .4s ease}
+@keyframes msgAppear{from{opacity:0;transform:translateY(10px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+.chat-user{align-self:flex-end;background:var(--primary);color:#0a0f1e;border-bottom-right-radius:4px}
+.chat-ai{align-self:flex-start;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);color:var(--text-1);border-bottom-left-radius:4px}
+.chat-ai .typing-cursor{display:inline-block;width:2px;height:14px;background:var(--primary);margin-left:2px;animation:blink .8s infinite;vertical-align:text-bottom}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.floating-card{position:absolute;z-index:2;padding:10px 16px;border-radius:12px;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,0.10);font-size:13px;font-weight:500;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+.floating-card:nth-child(2){top:60px;right:-40px;animation:float1 4s ease-in-out infinite}
+.floating-card:nth-child(3){bottom:140px;left:-50px;animation:float2 5s ease-in-out infinite}
+.floating-card:nth-child(4){bottom:60px;right:-30px;animation:float3 4.5s ease-in-out infinite}
+@keyframes float1{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes float2{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+@keyframes float3{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+/* PROBLEM */
+.problem{padding:120px 0}
+.problem .section-header{text-align:center;max-width:600px;margin:0 auto 60px}
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.stat-card{padding:40px 32px;border-radius:var(--radius);text-align:center;background:rgba(255,255,255,0.03);backdrop-filter:blur(10px);border:1px solid var(--border);border-top:3px solid var(--accent-2);transition:all .3s ease}
+.stat-card:hover{transform:translateY(-4px);box-shadow:0 0 30px rgba(245,158,11,0.15)}
+.stat-number{font-size:clamp(40px,5vw,56px);font-weight:800;color:var(--accent-2);margin-bottom:12px}
+.stat-label{font-size:15px;color:var(--text-2);line-height:1.5}
+
+/* CHAT DEMO */
+.chat-demo{padding:120px 0}
+.chat-demo .section-header{text-align:center;max-width:600px;margin:0 auto 60px}
+.demo-container{max-width:420px;margin:0 auto}
+.demo-phone{width:100%;border-radius:40px;overflow:hidden;background:#1a1a2a;padding:12px;border:2px solid rgba(255,255,255,0.12);box-shadow:0 25px 80px rgba(0,0,0,0.5)}
+.demo-phone-screen{border-radius:30px;overflow:hidden;background:var(--bg);min-height:500px;display:flex;flex-direction:column}
+.demo-phone-screen .phone-chat{min-height:380px}
+.demo-dots{display:flex;justify-content:center;gap:8px;margin-top:24px}
+.demo-dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.2);transition:all .3s;cursor:pointer}
+.demo-dot.active{background:var(--primary);box-shadow:0 0 8px rgba(0,229,160,0.4)}
+
+/* PORTFOLIO */
+.portfolio{padding:120px 0}
+.portfolio .section-header{text-align:center;max-width:600px;margin:0 auto 60px}
+.portfolio-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.portfolio-inputs{display:flex;flex-direction:column;gap:16px}
+.input-group{padding:20px;border-radius:var(--radius);background:rgba(255,255,255,0.03);border:1px solid var(--border);transition:all .3s}
+.input-group:focus-within{border-color:rgba(0,229,160,0.3);box-shadow:0 0 20px rgba(0,229,160,0.05)}
+.input-group-header{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.input-group-icon{font-size:24px}
+.input-group-label{font-weight:600;font-size:14px}
+.input-group-hint{font-size:11px;color:var(--text-2);margin-top:2px}
+.input-group input{width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--border);background:rgba(255,255,255,0.04);color:var(--text-1);font-family:'Inter',sans-serif;font-size:15px;font-weight:600;outline:none;transition:border-color .3s}
+.input-group input:focus{border-color:var(--primary)}
+.input-group input::placeholder{color:rgba(148,163,184,0.5);font-weight:400}
+.input-tooltip{font-size:11px;color:var(--text-2);margin-top:8px;padding:8px 12px;border-radius:8px;background:rgba(99,102,241,0.08);border-left:2px solid var(--accent);display:none}
+.input-group:focus-within .input-tooltip{display:block}
+.currency-toggle{display:flex;gap:8px;margin-bottom:16px}
+.currency-btn{padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text-2);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.currency-btn.active{background:var(--primary);color:#0a0f1e;border-color:var(--primary)}
+
+/* Chart Panel */
+.portfolio-output{position:sticky;top:100px}
+.chart-container{padding:32px;border-radius:var(--radius);background:rgba(255,255,255,0.03);border:1px solid var(--border);text-align:center;margin-bottom:20px}
+.donut-wrapper{position:relative;width:220px;height:220px;margin:0 auto 24px}
+.donut{width:100%;height:100%;border-radius:50%;transition:background .5s ease}
+.donut-hole{position:absolute;top:30px;left:30px;right:30px;bottom:30px;border-radius:50%;background:var(--surface);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.donut-total-label{font-size:11px;color:var(--text-2);text-transform:uppercase;letter-spacing:1px}
+.donut-total-value{font-size:20px;font-weight:800;margin-top:4px}
+.chart-legend{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:16px}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-2)}
+.legend-dot{width:10px;height:10px;border-radius:3px}
+.metrics-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
+.metric-card{padding:16px;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid var(--border)}
+.metric-label{font-size:11px;color:var(--text-2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.metric-value{font-size:16px;font-weight:700}
+.ai-insight{padding:20px;border-radius:var(--radius);background:rgba(99,102,241,0.06);border:1px solid rgba(99,102,241,0.15);margin-bottom:16px}
+.ai-insight-title{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.ai-insight-body{font-size:13px;color:var(--text-2);line-height:1.6}
+.btn-copy{width:100%;justify-content:center;background:var(--surface-2);color:var(--text-1);border:1px solid var(--border)}
+.btn-copy:hover{border-color:var(--primary);color:var(--primary)}
+
+/* FEATURES */
+.features{padding:120px 0}
+.features .section-header{text-align:center;max-width:600px;margin:0 auto 60px}
+.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.feature-card{padding:40px 32px;border-radius:var(--radius);background:rgba(255,255,255,0.03);backdrop-filter:blur(10px);border:1px solid var(--border);transition:all .4s;position:relative;overflow:hidden}
+.feature-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#ff6b6b,#ffd93d,#6bcb77,#4d96ff,#c77dff);opacity:0;transition:opacity .3s}
+.feature-card:hover{transform:translateY(-4px);box-shadow:0 0 30px rgba(0,229,160,0.1);border-color:rgba(0,229,160,0.15)}
+.feature-card:hover::before{opacity:1}
+.feature-icon{font-size:40px;margin-bottom:20px;display:inline-block;transition:transform .3s}
+.feature-card:hover .feature-icon{transform:rotate(10deg) scale(1.1)}
+.feature-title{font-size:20px;font-weight:700;margin-bottom:12px}
+.feature-body{font-size:14px;color:var(--text-2);line-height:1.7;margin-bottom:16px}
+.feature-tag{display:inline-block;padding:4px 12px;border-radius:100px;font-size:12px;font-weight:500;background:var(--primary-glow);color:var(--primary);border:1px solid rgba(0,229,160,0.15)}
+
+/* IFY */
+.ify{padding:120px 0;background:linear-gradient(180deg,transparent,rgba(99,102,241,0.05) 30%,rgba(99,102,241,0.05) 70%,transparent)}
+.ify .section-header{max-width:700px;margin:0 auto 60px;text-align:center}
+.ify-eyebrow{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:100px;background:rgba(0,229,160,0.08);border:1px solid rgba(0,229,160,0.2);font-size:14px;font-weight:500;color:var(--primary);margin-bottom:20px}
+.ify-badges{display:flex;gap:10px;justify-content:center;margin-bottom:30px;flex-wrap:wrap}
+.ify-badge{padding:6px 14px;border-radius:100px;font-size:12px;font-weight:600}
+.ify-badge.pink{background:rgba(236,72,153,0.12);color:#ec4899;border:1px solid rgba(236,72,153,0.2)}
+.ify-badge.green{background:rgba(0,229,160,0.1);color:var(--primary);border:1px solid rgba(0,229,160,0.2)}
+.ify-content{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.ify-text{font-size:15px;color:var(--text-2);line-height:1.8}
+.ify-text p+p{margin-top:16px}
+.ify-map{display:flex;justify-content:center}
+.map-svg{width:100%;max-width:440px;opacity:.8}
+.quote-box{margin-top:60px;padding:32px;border-radius:var(--radius);background:rgba(255,255,255,0.03);border-left:3px solid var(--accent);max-width:700px;margin-left:auto;margin-right:auto}
+.quote-box blockquote{font-size:16px;font-style:italic;color:var(--text-1);line-height:1.7;margin-bottom:12px}
+.quote-box cite{font-size:13px;color:var(--text-2);font-style:normal;line-height:1.6}
+
+/* FOOTER */
+.footer-cta{padding:100px 0;text-align:center}
+.footer-cta h2{font-size:clamp(32px,4vw,48px);font-weight:800;letter-spacing:-1px;margin-bottom:16px}
+.footer-cta p{font-size:17px;color:var(--text-2);margin-bottom:40px}
+.btn-full{display:block;width:100%;max-width:500px;margin:0 auto;padding:20px;text-align:center;font-size:17px;border-radius:999px}
+.footer{padding:40px 0;border-top:1px solid var(--border)}
+.footer-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-brand{display:flex;align-items:center;gap:8px}
+.footer-brand .logo-monogram{width:28px;height:28px}
+.footer-brand .logo-monogram-inner span{font-size:12px}
+.footer-brand>span{font-weight:600;font-size:15px}
+.footer-center{font-size:13px;color:var(--text-2);text-align:center;line-height:1.5}
+.footer-right{font-size:13px;color:var(--text-2)}
+.rainbow-line{height:2px;margin-top:32px;border-radius:2px;background:linear-gradient(90deg,#ff6b6b,#ffd93d,#6bcb77,#4d96ff,#c77dff)}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .hero-grid,.ify-content,.portfolio-grid{grid-template-columns:1fr;text-align:center;gap:40px}
+  .hero-sub{margin:0 auto 32px}
+  .hero-ctas,.social-proof{justify-content:center}
+  .stat-grid,.feature-grid{grid-template-columns:1fr}
+  .footer-inner{flex-direction:column;text-align:center}
+  .portfolio-output{position:static}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .phone{width:240px;height:480px;border-radius:32px}
+  .phone-screen{border-radius:24px}
+  .metrics-grid{grid-template-columns:1fr}
+}
+@media(max-width:480px){
+  .container{padding:0 16px}
+  .hero{padding:120px 0 60px}
+  .hero-ctas{flex-direction:column;align-items:stretch}
+  .btn{justify-content:center}
+}
+</style>
+</head>
+<body>
+<div class="bg-gradient"></div>
+<canvas id="particles"></canvas>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+<div class="container">
+  <a href="#" class="nav-logo">
+    <div class="logo-monogram"><div class="logo-monogram-inner"><span>Y</span></div></div>
+    <div class="logo-wordmark"><span class="logo-your">YOUR</span><span class="logo-fin">Fin</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#chat-demo">How It Works</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#ify">IFY 2026</a></li>
+  </ul>
+  <div class="nav-cta"><a href="#footer-cta" class="btn btn-primary btn-shimmer glow-pulse">Start Free →</a></div>
+</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+<div class="container"><div class="hero-grid">
+  <div class="hero-text">
+    <div class="hero-eyebrow reveal">🌈 IFY 2026 · Ekaterinburg, Russia</div>
+    <h1 class="reveal">Your money deserves<br><span class="rainbow-text">a better teacher.</span></h1>
+    <p class="hero-sub reveal">YourFin is an AI companion that teaches young people to think clearly about money — without the jargon, the judgment, or the $300/hour advisor.</p>
+    <div class="hero-ctas reveal">
+      <a href="#footer-cta" class="btn btn-primary btn-shimmer glow-pulse">Try YourFin Free →</a>
+      <a href="#portfolio" class="btn btn-ghost">See Portfolio Tool</a>
+    </div>
+    <div class="social-proof reveal">
+      <div class="avatar-stack"><span>👩</span><span>👨</span><span>🧑</span><span>👩‍🦱</span><span>🧑‍🦰</span></div>
+      <p><span class="stars">★★★★★</span> Trusted by <strong>50,000+</strong> youth in <strong>12 countries</strong></p>
+    </div>
+  </div>
+  <div class="phone-wrapper reveal">
+    <div class="phone-glow"></div>
+    <div class="floating-card">50/30/20 Rule ✓</div>
+    <div class="floating-card">Emergency Fund: 3 months ✓</div>
+    <div class="floating-card">Portfolio Ready 🚀</div>
+    <div class="phone"><div class="phone-notch"></div><div class="phone-screen">
+      <div class="phone-statusbar"><span>9:41</span><span>●●●</span></div>
+      <div class="phone-header">
+        <div class="phone-header-avatar">Y</div>
+        <div><div class="phone-header-name">YourFin AI</div><div class="phone-header-status">● Online</div></div>
+      </div>
+      <div class="phone-chat" id="hero-chat"></div>
+    </div></div>
+  </div>
+</div></div>
+</section>
+
+<!-- PROBLEM -->
+<section class="problem" id="problem">
+<div class="container">
+  <div class="section-header">
+    <h2 class="section-title reveal">Nobody taught us this.</h2>
+    <p class="section-sub reveal">School gave us calculus. University gave us theory. Nobody gave us the tools to understand our own money.</p>
+  </div>
+  <div class="stat-grid">
+    <div class="stat-card glass reveal"><div class="stat-number" data-count="78" data-suffix="%">0%</div><div class="stat-label">of young adults feel financially unprepared</div></div>
+    <div class="stat-card glass reveal"><div class="stat-number" data-special="1 in 3">1 in 3</div><div class="stat-label">earns first salary with no budget plan</div></div>
+    <div class="stat-card glass reveal"><div class="stat-number" data-count="10" data-suffix=" yrs">0 yrs</div><div class="stat-label">average delay before getting financial education</div></div>
+  </div>
+</div>
+</section>
+
+<!-- CHAT DEMO -->
+<section class="chat-demo" id="chat-demo">
+<div class="container">
+  <div class="section-header">
+    <h2 class="section-title reveal">Just ask. <span class="rainbow-text">YourFin explains.</span></h2>
+    <p class="section-sub reveal">Real conversations. Real clarity. See how YourFin turns confusion into confidence.</p>
+  </div>
+  <div class="demo-container reveal">
+    <div class="demo-phone"><div class="demo-phone-screen">
+      <div class="phone-statusbar"><span>9:41</span><span>●●●</span></div>
+      <div class="phone-header">
+        <div class="phone-header-avatar">Y</div>
+        <div><div class="phone-header-name">YourFin AI</div><div class="phone-header-status">● Online</div></div>
+      </div>
+      <div class="phone-chat" id="demo-chat"></div>
+    </div></div>
+    <div class="demo-dots">
+      <div class="demo-dot active" data-index="0"></div>
+      <div class="demo-dot" data-index="1"></div>
+      <div class="demo-dot" data-index="2"></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- PORTFOLIO CALCULATOR -->
+<section class="portfolio" id="portfolio">
+<div class="container">
+  <div class="section-header">
+    <h2 class="section-title reveal">Know exactly where <span class="rainbow-text">your wealth stands.</span></h2>
+    <p class="section-sub reveal">Add your assets. YourFin calculates your portfolio allocation instantly.</p>
+  </div>
+  <div class="portfolio-grid reveal">
+    <div class="portfolio-inputs">
+      <div class="currency-toggle">
+        <button class="currency-btn active" data-currency="VND">🇻🇳 VND</button>
+        <button class="currency-btn" data-currency="USD">🇺🇸 USD</button>
+      </div>
+      <div class="input-group"><div class="input-group-header"><span class="input-group-icon">💰</span><div><div class="input-group-label">Cash & Savings</div><div class="input-group-hint">Bank accounts, cash on hand</div></div></div><input type="text" id="asset-cash" placeholder="0" data-category="cash" inputmode="numeric"></div>
+      <div class="input-group"><div class="input-group-header"><span class="input-group-icon">✨</span><div><div class="input-group-label">Gold (Vàng)</div><div class="input-group-hint">Value in currency or grams</div></div></div><input type="text" id="asset-gold" placeholder="0" data-category="gold" inputmode="numeric"><div class="input-tooltip">Vietnamese investors traditionally allocate 10–20% to gold as a hedge.</div></div>
+      <div class="input-group"><div class="input-group-header"><span class="input-group-icon">📈</span><div><div class="input-group-label">Stocks & Funds</div><div class="input-group-hint">VN-Index, ETF, individual stocks</div></div></div><input type="text" id="asset-stocks" placeholder="0" data-category="stocks" inputmode="numeric"><div class="input-tooltip">VN-Index 10-year average return: ~12% annually.</div></div>
+      <div class="input-group"><div class="input-group-header"><span class="input-group-icon">🏠</span><div><div class="input-group-label">Real Estate</div><div class="input-group-hint">Estimated property value</div></div></div><input type="text" id="asset-realestate" placeholder="0" data-category="realestate" inputmode="numeric"><div class="input-tooltip">Real estate in Vietnam has averaged 8–12% annual appreciation.</div></div>
+      <div class="input-group"><div class="input-group-header"><span class="input-group-icon">📦</span><div><div class="input-group-label">Other Assets</div><div class="input-group-hint">Crypto, business equity, vehicles</div></div></div><input type="text" id="asset-other" placeholder="0" data-category="other" inputmode="numeric"></div>
+    </div>
+    <div class="portfolio-output">
+      <div class="chart-container">
+        <div class="donut-wrapper"><div class="donut" id="donut-chart"></div><div class="donut-hole"><span class="donut-total-label">Total Assets</span><span class="donut-total-value" id="total-value">0</span></div></div>
+        <div class="chart-legend" id="chart-legend"></div>
+      </div>
+      <div class="metrics-grid" id="metrics-grid"></div>
+      <div class="ai-insight" id="ai-insight"><div class="ai-insight-title">🤖 YourFin AI Insight</div><div class="ai-insight-body">Enter your assets above to receive a personalized portfolio analysis.</div></div>
+      <button class="btn btn-copy btn-shimmer" id="btn-copy" onclick="copyPortfolio()">📋 Copy Portfolio Summary →</button>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+<div class="container">
+  <div class="section-header"><h2 class="section-title reveal">Built for the generation<br><span class="rainbow-text">that was never taught this.</span></h2></div>
+  <div class="feature-grid">
+    <div class="feature-card glass reveal"><div class="feature-icon">💬</div><h3 class="feature-title">Ask Anything</h3><p class="feature-body">No dumb questions. No judgment. YourFin answers what you were too afraid to Google about money.</p><span class="feature-tag">AI Education</span></div>
+    <div class="feature-card glass reveal"><div class="feature-icon">📊</div><h3 class="feature-title">Portfolio Tracker</h3><p class="feature-body">Track gold, stocks, real estate, and cash in one place. Know your net worth in seconds.</p><span class="feature-tag">Smart Analytics</span></div>
+    <div class="feature-card glass reveal"><div class="feature-icon">🌍</div><h3 class="feature-title">Global Youth Insights</h3><p class="feature-body">Lessons from young people across 12+ countries. Understand how the world builds wealth.</p><span class="feature-tag">Cross-Cultural</span></div>
+  </div>
+</div>
+</section>
+
+<!-- IFY 2026 -->
+<section class="ify" id="ify">
+<div class="container">
+  <div class="section-header">
+    <div class="ify-eyebrow reveal">🌐 International Festival of Youth 2026</div>
+    <h2 class="section-title reveal">Taking YourFin <span class="rainbow-text">to the world.</span></h2>
+    <div class="ify-badges reveal">
+      <span class="ify-badge pink">September 11–17</span>
+      <span class="ify-badge green">Ekaterinburg, Russia</span>
+    </div>
+  </div>
+  <div class="ify-content">
+    <div class="ify-text reveal">
+      <p>In 2024, the World Youth Festival brought together young people from around the world to strengthen international ties. The event inspired the creation of <strong>International Friendship Clubs (IFC)</strong> — unique associations of young, active people who implement joint initiatives across borders.</p>
+      <p>IFC participants exchange experiences and carry out cross-cultural projects. At IFY 2026 in Ekaterinburg, YourFin will be presented as an open educational framework — to gather insights from youth in <strong>180+ countries</strong> on how financial illiteracy affects their lives.</p>
+      <p>The gap between financial stability and struggle is almost never about intelligence. <strong>It is almost always about access.</strong> YourFin is our answer to that gap.</p>
+    </div>
+    <div class="ify-map reveal">
+      <svg class="map-svg" viewBox="0 0 500 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g opacity="0.3" fill="rgba(255,255,255,0.12)" stroke="rgba(255,255,255,0.06)" stroke-width="0.5">
+          <path d="M30 60Q50 30 100 40Q130 35 140 55Q145 75 130 90Q120 100 100 105Q80 110 60 100Q40 95 30 80Z"/>
+          <path d="M100 130Q115 120 125 130Q130 150 125 170Q120 195 110 210Q100 220 95 210Q88 190 90 170Q92 150 100 130Z"/>
+          <path d="M220 45Q240 35 260 40Q270 45 265 55Q260 65 250 70Q240 70 230 65Q220 60 220 45Z"/>
+          <path d="M230 80Q245 75 260 85Q270 100 268 130Q265 155 255 170Q245 180 235 175Q225 160 222 140Q220 110 230 80Z"/>
+          <path d="M270 25Q300 15 340 20Q380 18 410 25Q430 30 440 45Q435 55 420 60Q400 65 380 60Q350 65 330 70Q310 72 290 65Q270 55 265 40Z"/>
+          <path d="M340 80Q360 75 375 85Q385 95 380 110Q370 120 355 115Q340 105 335 95Z"/>
+          <path d="M385 170Q400 160 420 165Q430 175 425 190Q415 200 400 195Q385 185 385 170Z"/>
+        </g>
+        <path d="M365 105Q370 70 350 38" stroke="var(--primary)" stroke-width="1.5" stroke-dasharray="6 4" fill="none" opacity="0.6">
+          <animate attributeName="stroke-dashoffset" from="40" to="0" dur="3s" repeatCount="indefinite"/>
+        </path>
+        <circle cx="365" cy="105" r="5" fill="var(--primary)" opacity="0.9">
+          <animate attributeName="r" values="5;8;5" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.9;0.4;0.9" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <circle cx="365" cy="105" r="3" fill="var(--primary)"/>
+        <circle cx="350" cy="35" r="5" fill="var(--accent)" opacity="0.9">
+          <animate attributeName="r" values="5;8;5" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+          <animate attributeName="opacity" values="0.9;0.4;0.9" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+        </circle>
+        <circle cx="350" cy="35" r="3" fill="var(--accent)"/>
+        <text x="375" y="110" fill="var(--primary)" font-size="9" font-family="Inter,sans-serif" font-weight="600">Vietnam</text>
+        <text x="355" y="30" fill="var(--accent)" font-size="9" font-family="Inter,sans-serif" font-weight="600">Ekaterinburg</text>
+      </svg>
+    </div>
+  </div>
+  <div class="quote-box reveal">
+    <blockquote>"The financial questions I had to find on my own should be the questions every young person finds on day one."</blockquote>
+    <cite>— Nguyen Tuan Vinh<br>Founder, YourFin | FPT University HCMC<br>Science & Education · IFY 2026</cite>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER CTA -->
+<section class="footer-cta" id="footer-cta">
+<div class="container">
+  <h2 class="reveal">Start your financial education <span class="rainbow-text">today.</span></h2>
+  <p class="reveal">Free. No sign-up. No judgment. Just ask.</p>
+  <a href="#" class="btn btn-primary btn-full btn-shimmer glow-pulse reveal">Try YourFin Free →</a>
+</div>
+</section>
+<footer class="footer">
+<div class="container">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo-monogram"><div class="logo-monogram-inner"><span>Y</span></div></div>
+      <span>YourFin</span>
+    </div>
+    <div class="footer-center">Built by Nguyen Tuan Vinh<br>FPT University HCMC · Vietnam</div>
+    <div class="footer-right">Science & Education · IFY 2026</div>
+  </div>
+  <div class="rainbow-line"></div>
+</div>
+</footer>
+
+<script>
+// === PARTICLES ===
+(function(){const c=document.getElementById('particles'),x=c.getContext('2d');function R(){c.width=innerWidth;c.height=innerHeight}R();addEventListener('resize',R);const P=[];const cols=['rgba(0,229,160,','rgba(99,102,241,','rgba(245,158,11,'];for(let i=0;i<35;i++)P.push({x:Math.random()*c.width,y:Math.random()*c.height,r:2+Math.random()*2,s:.2+Math.random()*.3,c:cols[i%3]});function D(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.y-=p.s;if(p.y<-10){p.y=c.height+10;p.x=Math.random()*c.width}let a=Math.min(1,(c.height-p.y)/c.height);x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fillStyle=p.c+a*0.5+')';x.fill()});requestAnimationFrame(D)}D()})();
+
+// === NAVBAR SCROLL ===
+addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',scrollY>50)});
+
+// === SCROLL REVEAL ===
+const IO=new IntersectionObserver((es)=>{es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('visible'),i*100);IO.unobserve(e.target)}})},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el=>IO.observe(el));
+
+// === COUNTER ANIMATION ===
+const CIO=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const el=e.target;if(el.dataset.special){el.textContent=el.dataset.special;CIO.unobserve(el);return}const end=+el.dataset.count,sfx=el.dataset.suffix||'';let start=0;const dur=1500,st=performance.now();function tick(now){const p=Math.min((now-st)/dur,1),ep=1-Math.pow(1-p,3);start=Math.round(ep*end);el.textContent=start+sfx;if(p<1)requestAnimationFrame(tick);else el.textContent=end+sfx}requestAnimationFrame(tick);CIO.unobserve(el)}})},{threshold:0.3});
+document.querySelectorAll('.stat-number').forEach(el=>CIO.observe(el));
+
+// === CHAT CONVERSATIONS ===
+const convos=[
+  [{t:'user',m:"I earn 10 million VND per month. How should I allocate it?"},{t:'ai',m:"Great question! Here's the 50/30/20 rule:\n\n• 50% Needs: 5,000,000₫\n• 30% Wants: 3,000,000₫\n• 20% Future: 2,000,000₫\n\nWant me to build your full budget?"}],
+  [{t:'user',m:"What's the difference between saving and investing?"},{t:'ai',m:"Simple:\n\n💰 Saving = protect money (0–3 yrs)\n📈 Investing = grow money (5+ yrs)\n\nSavings: safe, ~4–6%/yr\nInvesting: higher risk, higher potential\n\nBoth matter. Most people only do one."}],
+  [{t:'user',m:"When does debt become dangerous?"},{t:'ai',m:"Debt is dangerous when:\n\n① Interest > your income growth\n② Payments exceed 30% of income\n③ You borrow to pay other debt\n\n🔑 Debt that grows you = tool\nDebt that shrinks you = trap"}]
+];
+
+function typeMsg(container,msg,cb){
+  const div=document.createElement('div');div.className='chat-msg chat-'+(msg.t==='user'?'user':'ai');container.appendChild(div);
+  if(msg.t==='user'){div.textContent=msg.m;container.scrollTop=container.scrollHeight;setTimeout(cb,600);return}
+  let i=0;const cursor=document.createElement('span');cursor.className='typing-cursor';div.appendChild(cursor);
+  function t(){if(i<msg.m.length){div.insertBefore(document.createTextNode(msg.m[i]),cursor);i++;container.scrollTop=container.scrollHeight;setTimeout(t,15)}else{cursor.remove();if(cb)setTimeout(cb,400)}}t()
+}
+function playConvo(container,msgs,done){
+  let i=0;function next(){if(i<msgs.length){typeMsg(container,msgs[i],()=>{i++;next()})}else if(done)setTimeout(done,2000)}next()
+}
+
+// Hero chat (loop first convo)
+(function heroLoop(){const c=document.getElementById('hero-chat');c.innerHTML='';playConvo(c,convos[0],()=>{setTimeout(()=>{c.style.opacity='0';setTimeout(()=>{c.innerHTML='';c.style.opacity='1';heroLoop()},400)},3000)})})();
+
+// Demo chat (cycle all 3)
+let demoIdx=0;
+function runDemo(){
+  const c=document.getElementById('demo-chat');
+  document.querySelectorAll('.demo-dot').forEach((d,i)=>d.classList.toggle('active',i===demoIdx));
+  c.style.opacity='0';
+  setTimeout(()=>{c.innerHTML='';c.style.opacity='1';playConvo(c,convos[demoIdx],()=>{demoIdx=(demoIdx+1)%3;setTimeout(runDemo,3000)})},400)
+}
+runDemo();
+document.querySelectorAll('.demo-dot').forEach(d=>{d.addEventListener('click',()=>{demoIdx=+d.dataset.index;runDemo()})});
+
+// === PORTFOLIO CALCULATOR ===
+const categories=[
+  {id:'cash',label:'Cash & Savings',color:'#00e5a0',icon:'💰'},
+  {id:'gold',label:'Gold',color:'#f59e0b',icon:'✨'},
+  {id:'stocks',label:'Stocks & Funds',color:'#6366f1',icon:'📈'},
+  {id:'realestate',label:'Real Estate',color:'#ef4444',icon:'🏠'},
+  {id:'other',label:'Other Assets',color:'#8b5cf6',icon:'📦'}
+];
+let currency='VND';
+
+document.querySelectorAll('.currency-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.currency-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');currency=b.dataset.currency;updatePortfolio()
+  })
+});
+
+function parseNum(s){return parseInt((s||'0').replace(/[^0-9]/g,''),10)||0}
+function fmtNum(n){if(currency==='VND'){if(n>=1e9)return(n/1e9).toFixed(1)+'B₫';if(n>=1e6)return(n/1e6).toFixed(1)+'M₫';return n.toLocaleString()+'₫'}return'$'+n.toLocaleString()}
+
+function formatInput(el){
+  const raw=el.value.replace(/[^0-9]/g,'');
+  if(!raw){el.value='';return}
+  el.value=parseInt(raw,10).toLocaleString()
+}
+
+document.querySelectorAll('.portfolio-inputs input').forEach(inp=>{
+  inp.addEventListener('input',function(){formatInput(this);updatePortfolio()})
+});
+
+function updatePortfolio(){
+  const vals=categories.map(c=>({...c,value:parseNum(document.getElementById('asset-'+c.id).value)}));
+  const total=vals.reduce((s,v)=>s+v.value,0);
+  // Donut chart
+  const donut=document.getElementById('donut-chart');
+  if(total===0){donut.style.background='rgba(255,255,255,0.06)'}
+  else{
+    let segs=[],acc=0;
+    vals.forEach(v=>{if(v.value>0){const pct=(v.value/total)*100;segs.push(v.color+' '+acc.toFixed(2)+'% '+(acc+pct).toFixed(2)+'%');acc+=pct}});
+    donut.style.background='conic-gradient('+segs.join(',')+')';
+  }
+  document.getElementById('total-value').textContent=total?fmtNum(total):'0';
+
+  // Legend
+  const leg=document.getElementById('chart-legend');leg.innerHTML='';
+  vals.forEach(v=>{if(v.value>0){const pct=((v.value/total)*100).toFixed(1);leg.innerHTML+=`<div class="legend-item"><div class="legend-dot" style="background:${v.color}"></div>${v.icon} ${v.label}: ${pct}%</div>`}});
+
+  // Metrics
+  const mg=document.getElementById('metrics-grid');
+  if(total===0){mg.innerHTML='';document.getElementById('ai-insight').querySelector('.ai-insight-body').textContent='Enter your assets above to receive a personalized portfolio analysis.';return}
+  const sorted=[...vals].sort((a,b)=>b.value-a.value);
+  const largest=sorted[0];const largestPct=((largest.value/total)*100).toFixed(1);
+  const nonZero=vals.filter(v=>v.value>0).length;
+  const maxPct=Math.max(...vals.map(v=>v.value/total*100));
+  const divScore=Math.min(100,Math.round(nonZero*20*(1-maxPct/200)));
+  let risk='Conservative';if(nonZero>=3&&vals[2].value/total>.3)risk='Aggressive';else if(nonZero>=2)risk='Balanced';
+
+  mg.innerHTML=`
+    <div class="metric-card"><div class="metric-label">Total Assets</div><div class="metric-value">${fmtNum(total)}</div></div>
+    <div class="metric-card"><div class="metric-label">Largest Position</div><div class="metric-value">${largest.icon} ${largestPct}%</div></div>
+    <div class="metric-card"><div class="metric-label">Diversification</div><div class="metric-value">${divScore}/100</div></div>
+    <div class="metric-card"><div class="metric-label">Risk Level</div><div class="metric-value">${risk}</div></div>`;
+
+  // AI Insight
+  let tip=`Based on your portfolio, your risk level is <strong>${risk}</strong>.`;
+  if(maxPct>60)tip+=` Your ${largest.label} at ${largestPct}% exceeds the recommended 20% per asset class. Consider rebalancing.`;
+  else if(nonZero<3)tip+=` You're invested in only ${nonZero} category${nonZero>1?'ies':'y'}. Adding more categories improves diversification.`;
+  else tip+=` Great diversification! Keep monitoring your allocation quarterly.`;
+  document.getElementById('ai-insight').querySelector('.ai-insight-body').innerHTML=tip;
+}
+updatePortfolio();
+
+function copyPortfolio(){
+  const vals=categories.map(c=>({...c,value:parseNum(document.getElementById('asset-'+c.id).value)}));
+  const total=vals.reduce((s,v)=>s+v.value,0);
+  let txt='📊 YourFin Portfolio Summary\n'+('═'.repeat(30))+'\n';
+  vals.forEach(v=>{if(v.value>0){txt+=`${v.icon} ${v.label}: ${fmtNum(v.value)} (${((v.value/total)*100).toFixed(1)}%)\n`}});
+  txt+=('═'.repeat(30))+`\n💰 Total: ${fmtNum(total)}\n\nGenerated by YourFin — yourfin.ai`;
+  navigator.clipboard.writeText(txt).then(()=>{
+    const btn=document.getElementById('btn-copy');btn.textContent='✅ Copied!';setTimeout(()=>{btn.textContent='📋 Copy Portfolio Summary →'},2000)
+  })
+}
+</script>
+</body>
+</html>
