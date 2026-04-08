@@ -4,8 +4,10 @@ import dynamic from 'next/dynamic';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { LanguageProvider, useLanguage } from './components/LanguageContext';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, useScroll } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { AssetCoverflow } from './components/AssetCoverflow';
 
 // Import client-side Spline component dynamically to avoid SSR errors
 const Spline = dynamic(() => import('@splinetool/react-spline'), {
@@ -42,10 +44,23 @@ export default function Home() {
         transition={{ type: "spring", stiffness: 100, damping: 20 }}
       >
         <div className="text-xl font-semibold tracking-tighter">YourFin.</div>
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-zinc-400">
-          <Link href="#features" className="hover:text-white transition-colors">{t('nav.features')}</Link>
-          <Link href="#pricing" className="hover:text-white transition-colors">{t('nav.pricing')}</Link>
-          <Link href="#about" className="hover:text-white transition-colors">{t('nav.about')}</Link>
+        <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-zinc-400" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>
+          <Link href="#features" className="relative group hover:text-white transition-colors">
+            {t('nav.features')}
+            <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full" />
+          </Link>
+          <Link href="#assets" className="relative group hover:text-white transition-colors">
+            {t('nav.assets')}
+            <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full" />
+          </Link>
+          <Link href="#pricing" className="relative group hover:text-white transition-colors">
+            {t('nav.pricing')}
+            <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full" />
+          </Link>
+          <Link href="#about" className="relative group hover:text-white transition-colors">
+            {t('nav.about')}
+            <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full" />
+          </Link>
         </nav>
         <div className="flex items-center gap-4">
           <LanguageSwitcher />
@@ -131,54 +146,192 @@ export default function Home() {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Bento Item 1 */}
+          {/* Bento Item 1 - Realtime Dashboard */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.1 }}
-            className="md:col-span-2 h-80 rounded-[2rem] border border-white/10 bg-zinc-900/50 p-8 flex flex-col justify-end transition-colors hover:bg-zinc-900"
+            whileHover={{ scale: 1.02, transition: { type: "spring", stiffness: 400, damping: 25 } }}
+            className="group relative md:col-span-2 h-80 rounded-[2rem] border border-white/10 bg-zinc-900/50 p-8 flex flex-col justify-end overflow-hidden cursor-pointer"
           >
-            <h4 className="text-2xl font-medium mb-2">{t('features.realtime')}</h4>
-            <p className="text-zinc-500">{t('features.realtime.desc')}</p>
+            {/* Image Overlay - Only visible on hover */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileHover={{ opacity: 1 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="absolute inset-0 z-0"
+            >
+              <Image
+                src="/media/landingPage/realtime_landingpage.jpg"
+                alt="Realtime Dashboard"
+                fill
+                className="object-cover"
+                quality={90}
+              />
+              {/* Glassmorphism overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+            </motion.div>
+
+            {/* Content */}
+            <div className="relative z-10">
+              <h4 className="text-2xl font-medium mb-2 group-hover:text-white transition-colors">{t('features.realtime')}</h4>
+              <p className="text-zinc-500 group-hover:text-zinc-300 transition-colors">{t('features.realtime.desc')}</p>
+            </div>
           </motion.div>
 
-          {/* Bento Item 2 */}
+          {/* Bento Item 2 - Multi-Asset */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.2 }}
-            className="h-80 rounded-[2rem] border border-white/10 bg-zinc-900/50 p-8 flex flex-col justify-end transition-colors hover:bg-zinc-900"
+            whileHover={{ scale: 1.02, transition: { type: "spring", stiffness: 400, damping: 25 } }}
+            className="group relative h-80 rounded-[2rem] border border-white/10 bg-zinc-900/50 p-8 flex flex-col justify-end overflow-hidden cursor-pointer"
           >
-            <h4 className="text-2xl font-medium mb-2">{t('features.multiasset')}</h4>
-            <p className="text-zinc-500">{t('features.multiasset.desc')}</p>
+            {/* Image Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileHover={{ opacity: 1 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="absolute inset-0 z-0"
+            >
+              <Image
+                src="/media/landingPage/gold_landingpage.jpg"
+                alt="Multi-Asset Support"
+                fill
+                className="object-cover"
+                quality={90}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+            </motion.div>
+
+            <div className="relative z-10">
+              <h4 className="text-2xl font-medium mb-2 group-hover:text-white transition-colors">{t('features.multiasset')}</h4>
+              <p className="text-zinc-500 group-hover:text-zinc-300 transition-colors">{t('features.multiasset.desc')}</p>
+            </div>
           </motion.div>
 
-          {/* Bento Item 3 */}
+          {/* Bento Item 3 - P/L Tracking */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.3 }}
-            className="h-80 rounded-[2rem] border border-white/10 bg-zinc-900/50 p-8 flex flex-col justify-end transition-colors hover:bg-zinc-900"
+            whileHover={{ scale: 1.02, transition: { type: "spring", stiffness: 400, damping: 25 } }}
+            className="group relative h-80 rounded-[2rem] border border-white/10 bg-zinc-900/50 p-8 flex flex-col justify-end overflow-hidden cursor-pointer"
           >
-            <h4 className="text-2xl font-medium mb-2">{t('features.pl')}</h4>
-            <p className="text-zinc-500">{t('features.pl.desc')}</p>
+            {/* Image Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileHover={{ opacity: 1 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="absolute inset-0 z-0"
+            >
+              <Image
+                src="/media/landingPage/profit_landingpage.jpg"
+                alt="P/L Tracking"
+                fill
+                className="object-cover"
+                quality={90}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+            </motion.div>
+
+            <div className="relative z-10">
+              <h4 className="text-2xl font-medium mb-2 group-hover:text-white transition-colors">{t('features.pl')}</h4>
+              <p className="text-zinc-500 group-hover:text-zinc-300 transition-colors">{t('features.pl.desc')}</p>
+            </div>
           </motion.div>
 
-          {/* Bento Item 4 */}
+          {/* Bento Item 4 - AI Portfolio Advisor */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.4 }}
-            className="md:col-span-2 h-80 rounded-[2rem] border border-white/10 bg-zinc-900/50 p-8 flex flex-col justify-end transition-colors hover:bg-zinc-900"
+            whileHover={{ scale: 1.02, transition: { type: "spring", stiffness: 400, damping: 25 } }}
+            className="group relative md:col-span-2 h-80 rounded-[2rem] border border-white/10 bg-zinc-900/50 p-8 flex flex-col justify-end overflow-hidden cursor-pointer"
           >
-            <h4 className="text-2xl font-medium mb-2">{t('features.alerts')}</h4>
-            <p className="text-zinc-500">{t('features.alerts.desc')}</p>
+            {/* Image Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileHover={{ opacity: 1 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="absolute inset-0 z-0"
+            >
+              <Image
+                src="/media/landingPage/HandBot_landingPage.jpg"
+                alt="AI Portfolio Advisor"
+                fill
+                className="object-cover"
+                quality={90}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+            </motion.div>
+
+            <div className="relative z-10">
+              <h4 className="text-2xl font-medium mb-2 group-hover:text-white transition-colors">{t('features.advisor')}</h4>
+              <p className="text-zinc-500 group-hover:text-zinc-300 transition-colors">{t('features.advisor.desc')}</p>
+            </div>
+          </motion.div>
+
+          {/* Bento Item 5 - Asset News Updates */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ type: "spring", stiffness: 100, damping: 20, delay: 0.5 }}
+            whileHover={{ scale: 1.02, transition: { type: "spring", stiffness: 400, damping: 25 } }}
+            className="group relative md:col-span-1 h-80 rounded-[2rem] border border-white/10 bg-zinc-900/50 p-8 flex flex-col justify-end overflow-hidden cursor-pointer"
+          >
+            {/* Image Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileHover={{ opacity: 1 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+              className="absolute inset-0 z-0"
+            >
+              <Image
+                src="/media/landingPage/News_landingpage.jpg"
+                alt="Asset News Updates"
+                fill
+                className="object-cover"
+                quality={90}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
+            </motion.div>
+
+            <div className="relative z-10">
+              <h4 className="text-2xl font-medium mb-2 group-hover:text-white transition-colors">{t('features.news')}</h4>
+              <p className="text-zinc-500 group-hover:text-zinc-300 transition-colors">{t('features.news.desc')}</p>
+            </div>
           </motion.div>
         </div>
+      </section>
+
+      {/* Content Section 3: Asset Types - 3D Coverflow */}
+      <section id="assets" className="relative min-h-screen w-full px-6 py-24 md:px-12 lg:px-24 bg-zinc-950">
+        <motion.div
+          initial={{ opacity: 0, y: 60 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-150px" }}
+          transition={{ type: "spring", stiffness: 100, damping: 25, delay: 0.2 }}
+          className="mb-16 text-center"
+        >
+          <h3 className="font-sans text-3xl md:text-5xl font-bold tracking-tighter mb-4 uppercase">{t('assets.title')}</h3>
+          <p className="font-sans text-zinc-400 text-lg">{t('assets.subtitle')}</p>
+        </motion.div>
+
+        {/* 3D Coverflow Container */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ type: "spring", stiffness: 100, damping: 25, delay: 0.4 }}
+        >
+          <AssetCoverflow />
+        </motion.div>
       </section>
 
       {/* Footer */}
