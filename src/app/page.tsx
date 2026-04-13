@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { LanguageProvider, useLanguage } from './components/LanguageContext';
+import { AnimatedButton } from './components/ButtonAnimations';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, useScroll } from 'framer-motion';

@@ -51,7 +51,7 @@ export default function LoginPage() {
                         <Spline scene="https://prod.spline.design/7Uld6Oz2cKWvsxOq/scene.splinecode" />
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-                    {/* Spline Watermark Hider - Moved right */}
+                    {/* Spline Watermark `Hider - Moved right */}
                     <div className="absolute bottom-4 right-[-5%] w-40 h-10 bg-black z-10 pointer-events-none" />
                 </div>
 

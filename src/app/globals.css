@@ -57,3 +57,41 @@ body {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
+
+/* Dashboard Specific Styles */
+.dashboard-card {
+  background: rgba(10, 10, 10, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+/* TradingView Chart Container */
+.chart-container {
+  background: rgba(10, 10, 10, 0.8);
+  border-radius: 2rem;
+  overflow: hidden;
+}
+
+/* Profile Page Styles */
+.profile-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Animation Utilities */
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+  min-width: max-content;
+}
