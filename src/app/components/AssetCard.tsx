@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { TrendUp, TrendDown, Trash2, Edit3 } from '@phosphor-icons/react';
+import { TrendUp, TrendDown, Trash, PencilSimple } from '@phosphor-icons/react';
 
 interface AssetCardProps {
     id: string;
@@ -101,7 +101,7 @@ export function AssetCard({
                                 onClick={() => onEdit(id)}
                                 className="p-2 rounded-lg hover:bg-white/10 transition-colors text-zinc-400 hover:text-white"
                             >
-                                <Edit3 size={16} />
+                                <PencilSimple size={16} />
                             </button>
                         )}
                         {onDelete && (
@@ -109,7 +109,7 @@ export function AssetCard({
                                 onClick={() => onDelete(id)}
                                 className="p-2 rounded-lg hover:bg-red-500/10 transition-colors text-zinc-400 hover:text-red-400"
                             >
-                                <Trash2 size={16} />
+                                <Trash size={16} />
                             </button>
                         )}
                     </div>
