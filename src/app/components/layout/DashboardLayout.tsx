@@ -212,8 +212,11 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                                         className="absolute right-0 top-full mt-2 w-48 bg-[#111] border border-white/10 rounded-xl shadow-2xl overflow-hidden z-50"
                                     >
                                         <div className="p-3 border-b border-white/5">
-                                            <p className="text-sm font-medium text-white">{displayName}</p>
-                                            <p className="text-xs text-zinc-500">{user?.email}</p>
+                                            <div className="flex items-center gap-2">
+                                                <div className="px-2 py-1 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 border border-emerald-500/30 rounded-md">
+                                                    <p className="text-[10px] font-bold text-emerald-400 tracking-wider uppercase">Premium Tier</p>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div className="p-2">
                                             <Link
