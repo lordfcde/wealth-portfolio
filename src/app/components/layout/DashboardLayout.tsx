@@ -18,6 +18,8 @@ import {
     ClockCounterClockwise,
     Gear,
     ChartBar,
+    SignOut,
+    CaretDown,
 } from '@phosphor-icons/react';
 
 interface DashboardLayoutProps {
@@ -27,6 +29,7 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children }: DashboardLayoutProps) {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const { t } = useLanguage();
     const { data: session } = useSession();
 
@@ -184,15 +187,58 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                             <Bell size={18} />
                             <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-emerald-500 rounded-full" />
                         </button>
-                        <Link href="/profile" className="flex items-center gap-2 text-zinc-500 hover:text-white transition-colors">
-                            {avatarUrl ? (
-                                <img src={avatarUrl} alt={displayName} className="w-7 h-7 rounded-full object-cover border border-white/10" />
-                            ) : (
-                                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-emerald-600 to-blue-600 flex items-center justify-center text-[8px] font-bold text-white">
-                                    {initials}
-                                </div>
-                            )}
-                        </Link>
+                        <div className="relative">
+                            <button
+                                onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                                className="flex items-center gap-2 text-zinc-500 hover:text-white transition-colors"
+                            >
+                                {avatarUrl ? (
+                                    <img src={avatarUrl} alt={displayName} className="w-7 h-7 rounded-full object-cover border border-white/10" />
+                                ) : (
+                                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-emerald-600 to-blue-600 flex items-center justify-center text-[8px] font-bold text-white">
+                                        {initials}
+                                    </div>
+                                )}
+                                <CaretDown size={12} className={`transition-transform ${isUserMenuOpen ? 'rotate-180' : ''}`} />
+                            </button>
+
+                            {/* Dropdown Menu */}
+                            <AnimatePresence>
+                                {isUserMenuOpen && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        className="absolute right-0 top-full mt-2 w-48 bg-[#111] border border-white/10 rounded-xl shadow-2xl overflow-hidden z-50"
+                                    >
+                                        <div className="p-3 border-b border-white/5">
+                                            <p className="text-sm font-medium text-white">{displayName}</p>
+                                            <p className="text-xs text-zinc-500">{user?.email}</p>
+                                        </div>
+                                        <div className="p-2">
+                                            <Link
+                                                href="/profile"
+                                                onClick={() => setIsUserMenuOpen(false)}
+                                                className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors text-sm text-zinc-300 hover:text-white"
+                                            >
+                                                <User size={16} />
+                                                {t('dash.profile')}
+                                            </Link>
+                                            <button
+                                                onClick={() => {
+                                                    setIsUserMenuOpen(false);
+                                                    window.location.href = '/api/auth/signout';
+                                                }}
+                                                className="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-red-500/10 transition-colors text-sm text-zinc-300 hover:text-red-400"
+                                            >
+                                                <SignOut size={16} />
+                                                {t('dash.signout')}
+                                            </button>
+                                        </div>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+                        </div>
                     </div>
                 </header>
 
